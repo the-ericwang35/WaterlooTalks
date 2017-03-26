@@ -77,7 +77,7 @@ bot.dialog('/feeling', [
   function(session) {
     var ourRequest = new XMLHttpRequest();
     var res = session.message.text.replace(" ", "+");
-    ourRequest.open('GET', 'https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetSentiment?Text=' + res);
+    ourRequest.open('GET', 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?' + res;
     ourRequest.onload = function(){
       if (ourRequest.status >= 200 & ourRequest.status < 400) { //check if connection was successful
         var data = JSON.parse(ourRequest.responseText);
