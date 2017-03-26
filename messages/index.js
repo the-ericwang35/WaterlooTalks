@@ -7,6 +7,7 @@ http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 "use strict";
 var builder = require("botbuilder"); // require the botbuilder module
 var botbuilder_azure = require("botbuilder-azure");
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 var useEmulator = (process.env.NODE_ENV == 'development');
 
@@ -77,9 +78,7 @@ bot.dialog('/profile', [
 
 bot.dialog('/feeling', [
   function(session, args, next) {
-    session.send("this ran");
     var ourRequest = new XMLHttpRequest();
-    session.send("this ran too");
     var res = args.matched[0].replace(" ", "+");
     ourRequest.open('GET', 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?' + res);
     ourRequest.onload = function(){
