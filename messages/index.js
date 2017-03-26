@@ -147,7 +147,7 @@ bot.dialog('/promptHappy', [
 
 bot.dialog('/happyEnding', [
   function(session) {
-    builder.Prompts.text(session, "Happy to hear that! I will always be here if you need me");
+    session.send("Happy to hear that! I will always be here if you need me");
     session.endDialog();
   }
 ]);
