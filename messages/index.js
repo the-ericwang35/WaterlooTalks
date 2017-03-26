@@ -44,6 +44,11 @@ intents.matches('requestNumber', '/numbers');
 intents.matches('expressFeeling', '/feeling');
 intents.matches('requestCounselling', '/counsel');
 
+function strcmp(a, b)
+{
+    return (a<b?-1:(a>b?1:0));
+}
+
 bot.dialog('/greet', [
   function(session, args, next) {
     if(!session.userData.name) {
@@ -122,8 +127,7 @@ bot.dialog('/promptSad', [
     builder.Prompts.choice(session, "It seems like you are sad, is that true?", ["Yes", "No"]);
   },
   function(session, results) {
-    var str = new String(results.response);
-    if(str.localeCompare("Yes") == 0){
+    if(strcmp(results.response, "Yes") == 0){
       session.beginDialog('/sadEmotions');
     } else {
       session.beginDialog('/happyEnding');
