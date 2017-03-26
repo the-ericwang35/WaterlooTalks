@@ -45,7 +45,7 @@ intents.matches('requestCounselling', '/counsel');
 
 bot.dialog('/greet', [
   function(session, args, next) {
-    if(!session.userData.name) {
+    if(localeCompare(session.userData.name, "true") == 0) {
       session.beginDialog('/profile');
     } else {
       session.send("Hi, %s. How are you doing?", session.userData.name);
@@ -67,7 +67,7 @@ bot.dialog('/profile', [
     builder.Prompts.text(session, "Hey there! What is your name?");
   },
   function(session, results) {
-    session.userData.name = results.response;
+    session.userData.name = results.responseText;
     session.send("Hi, %s. How are you doing?", session.userData.name);
     session.endDialog();
   }
@@ -76,7 +76,6 @@ bot.dialog('/profile', [
 bot.dialog('/feeling', [
   function(session) {
     var ourRequest = new XMLHttpRequest();
-    session.send(session.message.text);
     var res = session.message.text.replace(" ", "+");
     ourRequest.open('GET', 'https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetSentiment?Text=' + res);
     ourRequest.onload = function(){
