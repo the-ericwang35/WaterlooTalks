@@ -56,6 +56,7 @@ bot.dialog('/profile', [
   },
   function(session, results) {
     session.userData.name = results.response;
+    session.send("Hi, %s. How are you doing?", session.userData.name);
     session.endDialog();
   }
 ]);
