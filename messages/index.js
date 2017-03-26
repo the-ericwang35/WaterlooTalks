@@ -86,8 +86,7 @@ bot.dialog('/feeling', [
     ourRequest.setRequestHeader("Content-Type","application/json");
     ourRequest.setRequestHeader("Ocp-Apim-Subscription-Key","88d91d2cc28c48628da9256371be038e");
     ourRequest.onload = function(){
-      session.send(ourRequest.status);
-      if (ourRequest.status >= 200 & ourRequest.status < 400) { //check if connection was successful
+      if (ourRequest.status >= 200 && ourRequest.status < 400) { //check if connection was successful
         var data = JSON.parse(ourRequest.responseText);
         if(data.documents[0].score < 0.3){
           session.beginDialog('/promptSad');
