@@ -45,7 +45,7 @@ intents.matches('requestCounselling', '/counsel');
 
 bot.dialog('/greet', [
   function(session, args, next) {
-    if(localeCompare(session.userData.name, "true") == 0) {
+    if(session.userData.name) {
       session.beginDialog('/profile');
     } else {
       session.send("Hi, %s. How are you doing?", session.userData.name);
