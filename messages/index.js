@@ -45,11 +45,12 @@ intents.matches('requestCounselling', '/counsel');
 
 bot.dialog('/greet', [
   function(session, args, next) {
-    if(!session.userData.name) {
+    if(session.userData.name) {
       session.beginDialog('/profile');
     } else {
-      session.send("Hi, %s. How are you doing?", session.userData.name);
+      next();
     }
+    session.send("Hi, %s. How are you doing?", session.userData.name);
     session.endDialog();
   }
 ]);
@@ -68,7 +69,6 @@ bot.dialog('/profile', [
   },
   function(session, results) {
     session.userData.name = results.response;
-    session.send("Hi, %s. How are you doing?", session.userData.name);
     session.endDialog();
   }
 ]);
