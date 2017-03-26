@@ -113,8 +113,8 @@ bot.dialog('/feeling',
       } else {
         session.beginDialog('/promptHappy');
       }
-      session.endDialog();
     });
+    session.endDialog();
   });
 
 bot.dialog('/promptSad', [
