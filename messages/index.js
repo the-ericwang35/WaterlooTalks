@@ -34,9 +34,6 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 /*
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 */
-.onDefault((session) => {
-    session.send('Sorry, I did not understand \'%s\'.', session.message.text);
-});
 
 // start the dialog (chat session)
 bot.dialog('/', intents);
@@ -62,6 +59,10 @@ bot.dialog('/profile', [
     session.endDialog();
   }
 ]);
+
+intents.onDefault((session) => {
+    session.send('Sorry, I did not understand \'%s\'.', session.message.text);
+});
 
 if (useEmulator) {
     var restify = require('restify');
