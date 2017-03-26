@@ -50,6 +50,8 @@ bot.dialog('/greet', [
     } else {
       next();
     }
+  },
+  function(session, results) {
     session.send("Hi, %s. How are you doing?", session.userData.name);
     session.endDialog();
   }
