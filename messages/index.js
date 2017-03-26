@@ -122,8 +122,8 @@ bot.dialog('/promptSad', [
     builder.Prompts.choice(session, "It seems like you are sad, is that true?", ["Yes", "No"]);
   },
   function(session, results) {
-    var str = new String(results.response.entity);
-    if(str.localeCompare("Yes") == 0){
+    session.send(results.response.entity);
+    if(results.response.entity.localeCompare("Yes") == 0){
       session.beginDialog('/sadEmotions');
     } else {
       session.beginDialog('/happyEnding');
