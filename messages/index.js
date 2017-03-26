@@ -45,7 +45,7 @@ intents.matches('requestCounselling', '/counsel');
 
 bot.dialog('/greet', [
   function(session, args, next) {
-    if(session.userData.name) {
+    if(!session.userData.name) {
       session.beginDialog('/profile');
     } else {
       next();
