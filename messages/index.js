@@ -39,7 +39,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] });
 bot.dialog('/', intents);
 
 intents.matches('greeting', '/greet');
-intents.matches('requestNumber', '/number');
+intents.matches('requestNumber', '/numbers');
 
 bot.dialog('/greet', [
   function(session, args, next) {
