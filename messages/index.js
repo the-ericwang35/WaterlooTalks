@@ -48,6 +48,7 @@ bot.dialog('/greet', [
       session.beginDialog('/profile');
     } else {
       session.send("Hi, %s. How are you doing?", session.userData.name);
+      session.beginDialog('/counsel');
     }
     session.endDialog();
   }
@@ -60,6 +61,7 @@ bot.dialog('/profile', [
   function(session, results) {
     session.userData.name = results.response;
     session.send("Hi, %s. How are you doing?", session.userData.name);
+    session.beginDialog('/counsel');
     session.endDialog();
   }
 ]);
@@ -67,7 +69,7 @@ bot.dialog('/profile', [
 bot.dialog('/counsel', [
   function(session, results) {
     var ourRequest = new XMLHttpRequest();
-    var res = results.response;
+    var res = results.responseText.replace(" ", "+");
     ourRequest.open('GET', 'https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetSentiment?Text=' + res);
     ourRequest.onload = function(){
       if (ourRequest.status >= 200 & ourRequest.status < 400) { //check if connection was successful
