@@ -7,7 +7,7 @@ http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 "use strict";
 var builder = require("botbuilder"); // require the botbuilder module
 var botbuilder_azure = require("botbuilder-azure");
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var unirest = require('unirest');
 
 var useEmulator = (process.env.NODE_ENV == 'development');
 
