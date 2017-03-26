@@ -57,6 +57,7 @@ bot.dialog('/greet', [
 bot.dialog('/counsel', [
   function(session) {
     session.send("You can contact Waterloo Health Services at 519-888-4096 or you can visit https://uwaterloo.ca/health-services/mental-health-services for more info");
+    session.send("Alternatively, the Delton Glebe Counselling Centre is near campus and can be reached at 519-884-3305 or at http://glebecounselling.ca/");
     session.endDialog();
   }
 ]);
@@ -75,7 +76,8 @@ bot.dialog('/profile', [
 bot.dialog('/feeling', [
   function(session, results) {
     var ourRequest = new XMLHttpRequest();
-    var res = results.responseText.replace(" ", "+");
+    session.send(session.message);
+    var res = session.message.replace(" ", "+");
     ourRequest.open('GET', 'https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetSentiment?Text=' + res);
     ourRequest.onload = function(){
       if (ourRequest.status >= 200 & ourRequest.status < 400) { //check if connection was successful
