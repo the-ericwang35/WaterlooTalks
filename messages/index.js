@@ -78,9 +78,9 @@ bot.dialog('/profile', [
 
 bot.dialog('/feeling', [
   function(session) {
-    var ourRequest = new XMLHttpRequest();
+    //var ourRequest = new XMLHttpRequest();
     var res = session.message.text.replace(/ /g, "+");
-    var params = JSON.stringify({ text : `${res}` });
+    /*var params = JSON.stringify({ text : `${res}` });
     ourRequest.open('GET', 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?');
     ourRequest.setRequestHeader("Content-Type","application/json");
     ourRequest.setRequestHeader("Ocp-Apim-Subscription-Key","88d91d2cc28c48628da9256371be038e");
@@ -103,8 +103,8 @@ bot.dialog('/feeling', [
     };
     ourRequest.send(params);
     session.endDialog();
-  }
-    /*unirest.post('https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?')
+  }*/
+    unirest.post('https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?')
     .headers({'Accept': 'application/json', 'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': '88d91d2cc28c48628da9256371be038e'})
     .send({ "documents": [{"language": "en", "id": "bot", "text": res}]})
     .end(function(response) {
@@ -113,7 +113,8 @@ bot.dialog('/feeling', [
       } else {
         session.beginDialog('/promptHappy');
       }
-    });*/
+      session.endDialog();
+    });
 ]);
 
 bot.dialog('/promptSad', [
