@@ -1,21 +1,3 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Gist
- @the-ericwang35
- Sign out
- Watch 2
-  Star 0
-  Fork 0 the-ericwang35/WaterlooTalks
- Code  Issues 0  Pull requests 0  Projects 0  Wiki  Pulse  Graphs  Settings
-Branch: master Find file Copy pathWaterlooTalks/messages/index.js
-282f104  9 minutes ago
-@colinmarsch colinmarsch Fixing bugs regarding greeting
-1 contributor
-RawBlameHistory     
-Executable File  78 lines (65 sloc)  2.77 KB
 /*-----------------------------------------------------------------------------
 This template demonstrates how to use an IntentDialog with a LuisRecognizer to add
 natural language support to a bot.
