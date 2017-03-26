@@ -88,32 +88,8 @@ bot.dialog('/feeling', [
       } else {
         session.beginDialog('/promptHappy');
       }
+      session.endDialog();
     });
-    /*session.send(res);
-    var params = JSON.stringify({ text : `${res}` });
-    ourRequest.open('GET', 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?');
-    ourRequest.setRequestHeader("Content-Type","application/json");
-    ourRequest.setRequestHeader("Ocp-Apim-Subscription-Key","88d91d2cc28c48628da9256371be038e");
-    ourRequest.onload = function(){
-      if (ourRequest.status >= 200 && ourRequest.status < 400) { //check if connection was successful
-        var data = JSON.parse(ourRequest.responseText);
-        if(data.documents[0].score < 0.3){
-          session.beginDialog('/promptSad');
-        } else {
-          session.beginDialog('/promptHappy');
-        }
-      } else {
-        console.log("The server returned an error");
-        session.send("server error");
-      }
-    };
-    ourRequest.onerror = function(){
-      console.log("There was an error");
-      session.send("error");
-    };
-    ourRequest.send(params);
-    session.endDialog();
-  }*/
 ]);
 
 bot.dialog('/promptSad', [
