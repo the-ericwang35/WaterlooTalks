@@ -127,7 +127,7 @@ bot.dialog('/promptSad', [
     builder.Prompts.choice(session, "It seems like you are sad, is that true?", ["Yes", "No"]);
   },
   function(session, results) {
-    if(results.response == "Yes"){
+    if(results.response == "yes"){
       session.beginDialog('/sadEmotions');
     } else {
       session.beginDialog('/happyEnding');
