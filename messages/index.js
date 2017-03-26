@@ -12,10 +12,10 @@ var useEmulator = (process.env.NODE_ENV == 'development');
 
 // build the connector
 var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure.BotServiceConnector({
-    appId: process.env['MicrosoftAppId'],
-    appPassword: process.env['MicrosoftAppPassword'],
-    stateEndpoint: process.env['BotStateEndpoint'],
-    openIdMetadata: process.env['BotOpenIdMetadata']
+  appId: process.env['MicrosoftAppId'],
+  appPassword: process.env['MicrosoftAppPassword'],
+  stateEndpoint: process.env['BotStateEndpoint'],
+  openIdMetadata: process.env['BotOpenIdMetadata']
 });
 
 // create the bot
@@ -65,8 +65,74 @@ bot.dialog('/profile', [
 ]);
 
 bot.dialog('/counsel', [
+  function(session, results) {
+    var ourRequest = new XMLHttpRequest();
+    var res = results.response;
+    ourRequest.open('GET', 'https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetSentiment?Text=' + res);
+    ourRequest.onload = function(){
+      if (ourRequest.status >= 200 & ourRequest.status < 400) { //check if connection was successful
+        var data = JSON.parse(ourRequest.responseText);
+        if(data.documents[0].score < 0.3){
+          session.beginDialog('/promptSad');
+        } else {
+          session.beginDialog('/promptHappy');
+        }
+      } else {
+        console.log("The server returned an error");
+      }
+    };
+    ourRequest.onerror = function(){
+      console.log("There was an error");
+    };
+    ourRequest.send();
+    session.endDialog();
+  }
+]);
+
+bot.dialog('/promptSad', [
+  function(session) {
+    builder.Prompts.choice(session, "It seems like you are sad, is that true?", ["Yes", "No"]);
+  },
+  function(session, results) {
+    if(localeCompare(results.response, "Yes") === 0){
+      session.beginDialog('/sadEmotions');
+    } else {
+      session.beginDialog('/happyEnding');
+    }
+  }
+]);
+
+bot.dialog('/promptHappy', [
+  function(session) {
+    builder.Prompts.choice(session, "It seems like you are doing alright, is that true?", ["Yes", "No"]);
+  },
+  function(session, results) {
+    if(localeCompare(results.response, "Yes") === 0){
+      session.beginDialog('/happyEnding');
+    } else {
+      session.beginDialog('/sadEmotions');
+    }
+  }
+]);
+
+bot.dialog('/profile', [
   function(session) {
     builder.Prompts.text(session, "Hey there! What is your name?");
+  },
+  function(session, results) {
+    session.userData.name = results.response;
+    session.send("Hi, %s. How are you doing?", session.userData.name);
+    session.endDialog();
+  }
+]);
+
+bot.dialog('/profile', [
+  function(session) {
+    builder.Prompts.text(session, "Hey there! What is your name?");
+  },
+  function(session, results) {
+    session.userData.name = results.response;
+    session.send("Hi, %s. How are you doing?", session.userData.name);
     session.endDialog();
   }
 ]);
@@ -76,19 +142,19 @@ bot.dialog('/numbers', [
     session.send("Here are some great 24/7 hotlines in the Waterloo region: \n-Supportive and Confidential Listening (519-745-1166), \n-Here 24/7: Addictions, Mental Health & Crisis Services (1-844-437-3247), \n-Good2Talk Support Line for Post-secondary Students (1-866-925-5454), \n-24-hour Support Line for Sexual Violence Survivors (519-741-8633), \n-Mental Health and Community Referral Information (519-744-5594).");
     session.send("I'm so glad you talked to me about this. Remember, being aware of how you're feeling is a huge first step. Keep going and don't give up, you got this!");
     session.endDialog();
-  }]);
+}]);
 
 intents.onDefault((session) => {
     session.send('Sorry, I did not understand \'%s\'.', session.message.text);
 });
 
 if (useEmulator) {
-    var restify = require('restify');
-    var server = restify.createServer();
-    server.listen(3978, function() {
-        console.log('test bot endpont at http://localhost:3978/api/messages');
-    });
-    server.post('/api/messages', connector.listen());
+  var restify = require('restify');
+  var server = restify.createServer();
+  server.listen(3978, function() {
+    console.log('test bot endpont at http://localhost:3978/api/messages');
+  });
+  server.post('/api/messages', connector.listen());
 } else {
-    module.exports = { default: connector.listen() }
+  module.exports = { default: connector.listen() }
 }
