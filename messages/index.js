@@ -76,9 +76,9 @@ bot.dialog('/profile', [
 ]);
 
 bot.dialog('/feeling', [
-  function(session) {
+  function(session, args, next) {
     var ourRequest = new XMLHttpRequest();
-    var res = session.message.text.replace(" ", "+");
+    var res = args.expression.replace(" ", "+");
     ourRequest.open('GET', 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?' + res);
     ourRequest.onload = function(){
       if (ourRequest.status >= 200 & ourRequest.status < 400) { //check if connection was successful
