@@ -41,6 +41,28 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 // start the dialog (chat session)
 bot.dialog('/', intents);
 
+intents.matches('greeting', '/greet');
+
+bot.dialog('/greet', [
+  function(session, args, next) {
+    if(!session.userData.name) {
+      session.beginDialog('/profile');
+    } else {
+      session.send("Hi, %s. How are you doing?", session.userData.name);
+    }
+  }
+]);
+
+bot.dialog('/profile', [
+  function(session) {
+    builder.Prompts.text(session, "Hey there! What is your name?");
+  },
+  function(session, results) {
+    session.userData.name = results.response;
+    session.endDialog();
+  }
+]);
+
 if (useEmulator) {
     var restify = require('restify');
     var server = restify.createServer();
