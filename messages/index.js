@@ -76,7 +76,7 @@ bot.dialog('/profile', [
 bot.dialog('/feeling', [
   function(session, results) {
     var ourRequest = new XMLHttpRequest();
-    var res = results.responseText.replace(" ", "+");
+    var res = session.message.replace(" ", "+");
     ourRequest.open('GET', 'https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetSentiment?Text=' + res);
     ourRequest.onload = function(){
       if (ourRequest.status >= 200 & ourRequest.status < 400) { //check if connection was successful
