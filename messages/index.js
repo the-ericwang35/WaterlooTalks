@@ -124,9 +124,9 @@ bot.dialog('/promptSad', [
   function(session, results) {
     var str = new String(results.response);
     if(str.localeCompare("Yes") == 0){
-      session.beginDialog('/happyEnding');
-    } else {
       session.beginDialog('/sadEmotions');
+    } else {
+      session.beginDialog('/happyEnding');
     }
     session.endDialog();
   }
@@ -139,9 +139,9 @@ bot.dialog('/promptHappy', [
   function(session, results) {
     var str = new String(results.response);
     if(str.localeCompare("Yes") == 0){
-      session.beginDialog('/sadEmotions');
-    } else {
       session.beginDialog('/happyEnding');
+    } else {
+      session.beginDialog('/sadEmotions');
     }
     session.endDialog();
   }
