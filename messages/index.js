@@ -136,7 +136,8 @@ bot.dialog('/promptHappy', [
     builder.Prompts.choice(session, "It seems like you are doing alright, is that true?", ["Yes", "No"]);
   },
   function(session, results) {
-    if(results.response.localeCompare("Yes") == 0){
+    var str = new String(results.response);
+    if(str.localeCompare("Yes") == 0){
       session.beginDialog('/happyEnding');
     } else {
       session.beginDialog('/sadEmotions');
