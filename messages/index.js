@@ -54,6 +54,13 @@ bot.dialog('/greet', [
   }
 ]);
 
+bot.dialog('/counsel', [
+  function(session) {
+    session.send("You can contact Waterloo Health Services at 519-888-4096 or you can visit https://uwaterloo.ca/health-services/mental-health-services for more info");
+    session.endDialog();
+  }
+]);
+
 bot.dialog('/profile', [
   function(session) {
     builder.Prompts.text(session, "Hey there! What is your name?");
