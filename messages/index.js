@@ -8,6 +8,7 @@ http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 var builder = require("botbuilder"); // require the botbuilder module
 var botbuilder_azure = require("botbuilder-azure");
 var unirest = require('unirest');
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var useEmulator = (process.env.NODE_ENV == 'development');
 
 // build the connector
@@ -77,8 +78,33 @@ bot.dialog('/profile', [
 
 bot.dialog('/feeling', [
   function(session) {
+    var ourRequest = new XMLHttpRequest();
     var res = session.message.text.replace(/ /g, "+");
-    unirest.post('https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?')
+    var params = JSON.stringify({ text : `${res}` });
+    ourRequest.open('GET', 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?');
+    ourRequest.setRequestHeader("Content-Type","application/json");
+    ourRequest.setRequestHeader("Ocp-Apim-Subscription-Key","88d91d2cc28c48628da9256371be038e");
+    ourRequest.onload = function(){
+      if (ourRequest.status >= 200 && ourRequest.status < 400) { //check if connection was successful
+        var data = JSON.parse(ourRequest.responseText);
+        if(data.documents[0].score < 0.3){
+          session.beginDialog('/promptSad');
+        } else {
+          session.beginDialog('/promptHappy');
+        }
+      } else {
+        console.log("The server returned an error");
+        session.send("server error");
+      }
+    };
+    ourRequest.onerror = function(){
+      console.log("There was an error");
+      session.send("error");
+    };
+    ourRequest.send(params);
+    session.endDialog();
+  }
+    /*unirest.post('https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?')
     .headers({'Accept': 'application/json', 'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': '88d91d2cc28c48628da9256371be038e'})
     .send({ "documents": [{"language": "en", "id": "bot", "text": res}]})
     .end(function(response) {
@@ -87,7 +113,7 @@ bot.dialog('/feeling', [
       } else {
         session.beginDialog('/promptHappy');
       }
-    });
+    });*/
 ]);
 
 bot.dialog('/promptSad', [
