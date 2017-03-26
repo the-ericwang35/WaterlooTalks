@@ -1,3 +1,21 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Gist
+ @the-ericwang35
+ Sign out
+ Watch 2
+  Star 0
+  Fork 0 the-ericwang35/WaterlooTalks
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Pulse  Graphs  Settings
+Branch: master Find file Copy pathWaterlooTalks/messages/index.js
+282f104  9 minutes ago
+@colinmarsch colinmarsch Fixing bugs regarding greeting
+1 contributor
+RawBlameHistory     
+Executable File  78 lines (65 sloc)  2.77 KB
 /*-----------------------------------------------------------------------------
 This template demonstrates how to use an IntentDialog with a LuisRecognizer to add
 natural language support to a bot.
@@ -39,6 +57,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] });
 bot.dialog('/', intents);
 
 intents.matches('greeting', '/greet');
+intents.matches('requestNumber', '/number');
 
 bot.dialog('/greet', [
   function(session, args, next) {
@@ -61,6 +80,14 @@ bot.dialog('/profile', [
   }
 ]);
 
+bot.dialog('/numbers', [
+  function(session) {
+    session.send("Here are some great 24/7 hotlines in the Waterloo region: - Supportive and Confidential Listening (519-745-1166), Here 24/7: Addictions, Mental Health & Crisis Services (1-844-437-3247), Good2Talk Support Line for Post-secondary Students (1-866-925-5454), 24-hour Support Line for Sexual Violence Survivors (519-741-8633), Mental Health and Community Referral Information (519-744-5594).");
+    session.send("I'm so glad you talked to me about this. Remember, being aware of how you're feeling is a huge first step. Keep going and don't give up, you got this!");
+  }]);
+
+
+
 intents.onDefault((session) => {
     session.send('Sorry, I did not understand \'%s\'.', session.message.text);
 });
@@ -75,3 +102,5 @@ if (useEmulator) {
 } else {
     module.exports = { default: connector.listen() }
 }
+Contact GitHub API Training Shop Blog About
+© 2017 GitHub, Inc. Terms Privacy Security Status Help
