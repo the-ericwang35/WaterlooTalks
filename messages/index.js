@@ -65,7 +65,7 @@ bot.dialog('/profile', [
 
 bot.dialog('/numbers', [
   function(session) {
-    session.send("Here are some great 24/7 hotlines in the Waterloo region: \n- Supportive and Confidential Listening (519-745-1166), \nHere 24/7: Addictions, Mental Health & Crisis Services (1-844-437-3247), \nGood2Talk Support Line for Post-secondary Students (1-866-925-5454), \n24-hour Support Line for Sexual Violence Survivors (519-741-8633), \nMental Health and Community Referral Information (519-744-5594).");
+    session.send("Here are some great 24/7 hotlines in the Waterloo region: \n Supportive and Confidential Listening (519-745-1166), \n Here 24/7: Addictions, Mental Health & Crisis Services (1-844-437-3247), \n Good2Talk Support Line for Post-secondary Students (1-866-925-5454), \n 24-hour Support Line for Sexual Violence Survivors (519-741-8633), \n Mental Health and Community Referral Information (519-744-5594).");
     session.send("I'm so glad you talked to me about this. Remember, being aware of how you're feeling is a huge first step. Keep going and don't give up, you got this!");
     session.endDialog();
   }]);
