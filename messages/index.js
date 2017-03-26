@@ -76,7 +76,7 @@ bot.dialog('/profile', [
   }
 ]);
 
-bot.dialog('/feeling', [
+bot.dialog('/feeling',
   function(session) {
     //var ourRequest = new XMLHttpRequest();
     var res = session.message.text.replace(/ /g, "+");
@@ -115,7 +115,7 @@ bot.dialog('/feeling', [
       }
       session.endDialog();
     });
-]);
+);
 
 bot.dialog('/promptSad', [
   function(session) {
