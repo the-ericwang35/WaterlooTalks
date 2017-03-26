@@ -122,7 +122,7 @@ bot.dialog('/promptSad', [
     builder.Prompts.choice(session, "It seems like you are sad, is that true?", ["Yes", "No"]);
   },
   function(session, results) {
-    if(localeCompare(results.response, "Yes") == 0){
+    if(results.response.localeCompare("Yes") == 0){
       session.beginDialog('/sadEmotions');
     } else {
       session.beginDialog('/happyEnding');
@@ -136,7 +136,7 @@ bot.dialog('/promptHappy', [
     builder.Prompts.choice(session, "It seems like you are doing alright, is that true?", ["Yes", "No"]);
   },
   function(session, results) {
-    if(localeCompare(results.response, "Yes") == 0){
+    if(results.response.localeCompare("Yes") == 0){
       session.beginDialog('/happyEnding');
     } else {
       session.beginDialog('/sadEmotions');
@@ -157,19 +157,19 @@ bot.dialog('/sadEmotions', [
     builder.Prompts.choice(session, "What best describes you right now?", ["Sad", "Tired", "Angry", "Scared", "Anxious"]);
   },
   function(session, results) {
-    if(localeCompare(results.response, "Sad") == 0){
+    if(results.response.localeCompare("Sad") == 0){
       builder.Prompts.text(session, "I'm sorry to hear that. Please know that you're not alone in this world, there are many people that care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there");
       session.beginDialog('/causes');
-    } else if (localeCompare(results.response, "Tired") == 0) {
+    } else if (results.response.localeCompare("Tired") == 0) {
       builder.Prompts.text(session, "Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship so we mustn't give up");
       session.beginDialog('/causes');
-    }else if (localeCompare(results.response, "Angry") == 0) {
+    }else if (results.response.localeCompare("Anger") == 0) {
       builder.Prompts.text(session, "Take a deep breath, calm down");
       session.beginDialog('/causes');
-    }else if (localeCompare(results.response, "Scared") == 0) {
+    }else if (results.response.localeCompare("Scared") == 0) {
       builder.Prompts.text(session, "");
       session.beginDialog('/causes');
-    }else if (localeCompare(results.response, "Anxious") == 0) {
+    }else if (results.response.localeCompare("Anxious") == 0) {
       builder.Prompts.text(session, "");
       session.beginDialog('/causes');
     }
