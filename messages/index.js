@@ -115,7 +115,7 @@ bot.dialog('/feeling',
       }
       session.endDialog();
     });
-);
+  });
 
 bot.dialog('/promptSad', [
   function(session) {
