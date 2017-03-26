@@ -74,7 +74,7 @@ bot.dialog('/profile', [
 ]);
 
 bot.dialog('/feeling', [
-  function(session, results) {
+  function(session) {
     var ourRequest = new XMLHttpRequest();
     session.send(session.message.text);
     var res = session.message.text.replace(" ", "+");
