@@ -41,7 +41,7 @@ bot.dialog('/', intents);
 intents.matches('greeting', '/greet');
 intents.matches('requestNumber', '/numbers');
 intents.matches('expressFeeling', '/feeling');
-intents.matches('requestCounsel', '/counsel');
+intents.matches('requestCounselling', '/counsel');
 
 bot.dialog('/greet', [
   function(session, args, next) {
