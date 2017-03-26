@@ -79,7 +79,7 @@ bot.dialog('/profile', [
 bot.dialog('/feeling', [
   function(session, args, next) {
     var ourRequest = new XMLHttpRequest();
-    session.send(args.intent);
+    session.send(session.message.text);
     var res = args.matched[0].replace(" ", "+");
     session.send("this ran");
     ourRequest.open('GET', 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?' + res);
