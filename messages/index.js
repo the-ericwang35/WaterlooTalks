@@ -80,7 +80,6 @@ bot.dialog('/feeling', [
   function(session, args, next) {
     var ourRequest = new XMLHttpRequest();
     var res = session.message.text.replace(" ", "+");
-    session.send("this ran");
     ourRequest.open('GET', 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?' + res);
     ourRequest.onload = function(){
       if (ourRequest.status >= 200 & ourRequest.status < 400) { //check if connection was successful
@@ -92,10 +91,12 @@ bot.dialog('/feeling', [
         }
       } else {
         console.log("The server returned an error");
+        session.send("server error");
       }
     };
     ourRequest.onerror = function(){
       console.log("There was an error");
+      session.send("error");
     };
     ourRequest.send();
     session.endDialog();
