@@ -82,7 +82,7 @@ bot.dialog('/feeling', [
     var res = session.message.text.replace(/ /g, "+");
     session.send(res);
     var params = JSON.stringify({ text : `${res}` });
-    ourRequest.open('GET', 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment');
+    ourRequest.open('GET', 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?');
     ourRequest.setRequestHeader("Content-Type","application/json");
     ourRequest.setRequestHeader("Ocp-Apim-Subscription-Key","88d91d2cc28c48628da9256371be038e");
     ourRequest.onload = function(){
