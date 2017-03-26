@@ -77,6 +77,7 @@ bot.dialog('/profile', [
 
 bot.dialog('/feeling', [
   function(session, args, next) {
+    session.send("this ran");
     var ourRequest = new XMLHttpRequest();
     session.send(args.matched[0]);
     var res = args.matched[0].replace(" ", "+");
