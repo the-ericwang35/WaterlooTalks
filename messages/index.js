@@ -7,7 +7,7 @@ http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 "use strict";
 var builder = require("botbuilder"); // require the botbuilder module
 var botbuilder_azure = require("botbuilder-azure");
-var unirest = require('unirest');
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 var useEmulator = (process.env.NODE_ENV == 'development');
 
@@ -88,7 +88,6 @@ bot.dialog('/feeling', [
       } else {
         session.beginDialog('/promptHappy');
       }
-      session.endDialog();
     });
 ]);
 
@@ -97,7 +96,7 @@ bot.dialog('/promptSad', [
     builder.Prompts.choice(session, "It seems like you are sad, is that true?", ["Yes", "No"]);
   },
   function(session, results) {
-    if(localeCompare(results.response, "Yes") === 0){
+    if(localeCompare(results.response, "Yes") == 0){
       session.beginDialog('/sadEmotions');
     } else {
       session.beginDialog('/happyEnding');
@@ -129,7 +128,7 @@ bot.dialog('/happyEnding', [
 
 bot.dialog('/sadEmotions', [
   function(session) {
-    builder.Prompts.choice(session, "What best describes you right now?", ["Sad", "Tired"]);
+    builder.Prompts.choice(session, "What best describes you right now?", ["Sad", "Tired", "Angry", "Scared", "Anxious"]);
   },
   function(session, results) {
     if(localeCompare(results.response, "Sad") == 0){
@@ -137,6 +136,15 @@ bot.dialog('/sadEmotions', [
       session.beginDialog('/causes');
     } else if (localeCompare(results.response, "Tired") == 0) {
       builder.Prompts.text(session, "Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship so we mustn't give up");
+      session.beginDialog('/causes');
+    }else if (localeCompare(results.response, "Angry") == 0) {
+      builder.Prompts.text(session, "Take a deep breath, calm down");
+      session.beginDialog('/causes');
+    }else if (localeCompare(results.response, "Scared") == 0) {
+      builder.Prompts.text(session, "");
+      session.beginDialog('/causes');
+    }else if (localeCompare(results.response, "Anxious") == 0) {
+      builder.Prompts.text(session, "");
       session.beginDialog('/causes');
     }
     session.endDialog();
@@ -149,13 +157,13 @@ bot.dialog('/causes', [
   },
   function(session, results) {
     if(localeCompare(results.response, "Academic") == 0){
-      builder.Prompts.text(session, "If you are struggling with academics, maybe it's time to see an academic advisor, [insert info here]");
+      builder.Prompts.text(session, "If you are struggling with academics, maybe it's time to see an academic advisor, you can get more info here: https://uwaterloo.ca/registrar/current-students/advisors");
     } else if (localeCompare(results.response, "Coop") == 0) {
-      builder.Prompts.text(session, "Finding a job can be hard sometimes, but pray to mr.goose and don't give up");
+      builder.Prompts.text(session, "Finding a job can be hard sometimes, but hey you are probably not the only one so hang in tight");
     } else if (localeCompare(results.response, "Finance") == 0) {
-      builder.Prompts.text(session, "Bruh chill I am broke too");
+      builder.Prompts.text(session, "There are government fundings and scholarships you can apply to, check out https://www.ontario.ca/page/osap-ontario-student-assistance-program and https://uwaterloo.ca/find-out-more/financing/scholarships");
     } else if (localeCompare(results.response, "Social Life") == 0) {
-      builder.Prompts.text(session, "tfwnogf");
+      builder.Prompts.text(session, "Get out more, talk to strangers, social life will only come if you really mean it!");
     }
     session.endDialog();
   }
