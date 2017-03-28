@@ -139,7 +139,7 @@ bot.dialog('/sadEmotions', [
       session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship so we mustn't give up");
       session.beginDialog('/causes');
     }else if (results.response.entity.localeCompare("Anger") == 0) {
-      session.send("Take a deep breath, calm down");
+      session.send("Take a deep breath, stop thinking anything that is bothering you and go have a walk outside.");
       session.beginDialog('/causes');
     }else if (results.response.entity.localeCompare("Scared") == 0) {
       session.send("");
