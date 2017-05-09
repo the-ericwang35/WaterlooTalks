@@ -98,7 +98,7 @@ bot.dialog('/promptSad', [
     builder.Prompts.choice(session, "It seems like you are sad, is that true?", ["Yes", "No"]);
   },
   function(session, results) {
-    if(results.response.entity.localeCompare("Yes") == 0){
+    if(results.response.entity === "Yes"){
       session.beginDialog('/sadEmotions');
     } else {
       session.beginDialog('/happyEnding');
@@ -112,7 +112,7 @@ bot.dialog('/promptHappy', [
     builder.Prompts.choice(session, "It seems like you are doing alright, is that true?", ["Yes", "No"]);
   },
   function(session, results) {
-    if(results.response.entity.localeCompare("Yes") == 0){
+    if(results.response.entity === "Yes"){
       session.beginDialog('/happyEnding');
     } else {
       session.beginDialog('/sadEmotions');
@@ -133,19 +133,19 @@ bot.dialog('/sadEmotions', [
     builder.Prompts.choice(session, "What best describes you right now?", ["Sad", "Tired", "Angry", "Scared", "Anxious"]);
   },
   function(session, results) {
-    if(results.response.entity.localeCompare("Sad") == 0){
+    if(results.response.entity === "Sad"){
       session.send("I'm sorry to hear that. Please know that you're not alone in this world, there are many people that care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there");
       session.beginDialog('/causes');
-    } else if (results.response.entity.localeCompare("Tired") == 0) {
+    } else if (results.response.entity === "Tired") {
       session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship so we mustn't give up");
       session.beginDialog('/causes');
-    }else if (results.response.entity.localeCompare("Anger") == 0) {
+    }else if (results.response.entity === "Angry") {
       session.send("Take a deep breath, stop thinking anything that is bothering you and go have a walk outside.");
       session.beginDialog('/causes');
-    }else if (results.response.entity.localeCompare("Scared") == 0) {
+    }else if (results.response.entity === "Scared") {
       session.send("");
       session.beginDialog('/causes');
-    }else if (results.response.entity.localeCompare("Anxious") == 0) {
+    }else if (results.response.entity === "Anxious") {
       session.send("");
       session.beginDialog('/causes');
     }
@@ -158,13 +158,13 @@ bot.dialog('/causes', [
     builder.Prompts.choice(session, "What best describes you right now?", ["Academic", "Coop", "Finance", "Social Life"]);
   },
   function(session, results) {
-    if(results.response.entity.localeCompare("Academic") == 0){
+    if(results.response.entity === "Academic"){
       session.send("If you are struggling with academics, maybe it's time to see an academic advisor, you can get more info here: https://uwaterloo.ca/registrar/current-students/advisors");
-    } else if (results.response.entity.localeCompare("Coop") == 0) {
+    } else if (results.response.entity === "Coop") {
       session.send("Finding a job can be hard sometimes, but hey you are probably not the only one so hang in tight");
-    } else if (results.response.entity.localeCompare("Finance") == 0) {
+    } else if (results.response.entity === "Finance") {
       session.send("There are government fundings and scholarships you can apply to, check out https://www.ontario.ca/page/osap-ontario-student-assistance-program and https://uwaterloo.ca/find-out-more/financing/scholarships");
-    } else if (results.response.entity.localeCompare("Social Life") == 0) {
+    } else if (results.response.entity === "Social Life") {
       session.send("Get out more, talk to strangers, social life will only come if you really mean it!");
     }
     session.endDialog();
