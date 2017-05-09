@@ -80,6 +80,7 @@ bot.dialog('/counsel', [
 bot.dialog('/feeling',
   function(session) {
     var res = session.message.text.replace(/ /g, "+");
+    session.send(res);
     unirest.post('https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment')
     .headers({'Accept': 'application/json', 'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': '88d91d2cc28c48628da9256371be038e'})
     .send({ "documents": [{"language": "en", "id": "bot", "text": res}]})
