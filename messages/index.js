@@ -58,14 +58,6 @@ bot.dialog('/greet', [
   }
 ]);
 
-bot.dialog('/counsel', [
-  function(session) {
-    session.send("You can contact Waterloo Health Services at 519-888-4096 or you can visit https://uwaterloo.ca/health-services/mental-health-services for more info");
-    session.send("Alternatively, the Delton Glebe Counselling Centre is near campus and can be reached at 519-884-3305 or at http://glebecounselling.ca/");
-    session.endDialog();
-  }
-]);
-
 bot.dialog('/profile', [
   function(session) {
     builder.Prompts.text(session, "Hey there! What is your name?");
@@ -75,6 +67,15 @@ bot.dialog('/profile', [
     session.endDialog();
   }
 ]);
+
+bot.dialog('/counsel', [
+  function(session) {
+    session.send("You can contact Waterloo Health Services at 519-888-4096 or you can visit https://uwaterloo.ca/health-services/mental-health-services for more info");
+    session.send("Alternatively, the Delton Glebe Counselling Centre is near campus and can be reached at 519-884-3305 or at http://glebecounselling.ca/");
+    session.endDialog();
+  }
+]);
+
 
 bot.dialog('/feeling',
   function(session) {
