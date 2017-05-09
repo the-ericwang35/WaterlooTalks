@@ -41,8 +41,19 @@ bot.dialog('/', intents);
 
 intents.matches('greeting', '/greet');
 intents.matches('requestNumber', '/numbers');
-intents.matches('expressFeeling', '/feeling');
+intents.matches('expressFeeling', '/path');
 intents.matches('requestCounselling', '/counsel');
+
+bot.dialog('/path',
+  function(session) {
+    session.send(session.findDialogStackEntry(session.dialogStack(), "sadEmotions"));
+    if(session.findDialogStackEntry(session.dialogStack(), "sadEmotions") < 0) {
+      session.beginDialog('/sadEmotions');
+    } else {
+      session.beginDialog('/sadEmotions2');
+    }
+  }
+);
 
 bot.dialog('/greet', [
   function(session, args, next) {
@@ -128,30 +139,34 @@ bot.dialog('/happyEnding', [
   }
 ]);
 
-bot.dialog('/sadEmotions', [
+bot.dialog('/sadEmotions',
   function(session) {
     builder.Prompts.choice(session, "What best describes you right now?", ["Sad", "Tired", "Angry", "Scared", "Anxious"]);
-  },
-  function(session, results) {
-    if(results.response.entity === "Sad"){
+  }
+);
+
+bot.dialog('/sadEmotions2', 
+  function(session) {
+    var res = session.message.text;
+    if(res === "Sad"){
       session.send("I'm sorry to hear that. Please know that you're not alone in this world, there are many people that care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there");
       session.beginDialog('/causes');
-    } else if (results.response.entity === "Tired") {
+    } else if (res === "Tired") {
       session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship so we mustn't give up");
       session.beginDialog('/causes');
-    }else if (results.response.entity === "Angry") {
+    }else if (res === "Angry") {
       session.send("Take a deep breath, stop thinking anything that is bothering you and go have a walk outside.");
       session.beginDialog('/causes');
-    }else if (results.response.entity === "Scared") {
+    }else if (res === "Scared") {
       session.send("");
       session.beginDialog('/causes');
-    }else if (results.response.entity === "Anxious") {
+    }else if (res === "Anxious") {
       session.send("");
       session.beginDialog('/causes');
     }
     session.endDialog();
   }
-]);
+);
 
 bot.dialog('/causes', [
   function(session) {
