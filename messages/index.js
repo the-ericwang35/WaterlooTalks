@@ -167,7 +167,7 @@ bot.dialog('/sadEmotions2',
 
 bot.dialog('/causes', [
   function (session) {
-    builder.Prompts.choice(session, "What is causing you to feel this way?", ["Academic", "Coop", "Finance", "Social Life"]);
+    builder.Prompts.choice(session, "Could you tell me what is causing you to feel this way?", ["Academic", "Coop", "Finance", "Social Life"]);
   },
   function (session, results) {
     if (results.response.entity === "Academic") {
