@@ -130,23 +130,28 @@ bot.dialog('/happyEnding', [
 
 bot.dialog('/sadEmotions', [
   function(session) {
-    builder.Prompts.choice(session, "What best describes you right now?", ["Sad", "Tired", "Angry", "Scared", "Anxious"]);
+    session.send("1 - Sad");
+    session.send("2 - Tired");
+    session.send("3 - Angry");
+    session.send("4 - Scared");
+    session.send("5 - Anxious");
+    builder.Prompts.number(session, "What best describes you right now? Please enter the corresponding number.");
   },
   function(session, results) {
-    if(results.response.entity === "Sad"){
+    if(results.response.entity == 1){
       session.send("I'm sorry to hear that. Please know that you're not alone in this world, there are many people that care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there");
       session.beginDialog('/causes');
-    } else if (results.response.entity === "Tired") {
+    } else if (results.response.entity == 2) {
       session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship so we mustn't give up");
       session.beginDialog('/causes');
-    }else if (results.response.entity === "Angry") {
+    }else if (results.response.entity == 3) {
       session.send("Take a deep breath, stop thinking anything that is bothering you and go have a walk outside.");
       session.beginDialog('/causes');
-    }else if (results.response.entity === "Scared") {
-      session.send("");
+    }else if (results.response.entity == 4) {
+      session.send("test123");
       session.beginDialog('/causes');
-    }else if (results.response.entity === "Anxious") {
-      session.send("");
+    }else if (results.response.entity == 5) {
+      session.send("test69/420");
       session.beginDialog('/causes');
     }
     session.endDialog();
