@@ -99,7 +99,7 @@ bot.dialog('/feeling',
 
 bot.dialog('/promptSad', [
   function (session) {
-    builder.Prompts.choice(session, "It seems like you are sad, is that true?", ["Yes", "No"]);
+    builder.Prompts.choice(session, "It seems like you are feeling down, is this true?", ["Yes", "No"]);
   },
   function (session, results) {
     if (results.response.entity === "Yes") {
@@ -139,26 +139,26 @@ bot.dialog('/sadEmotions',
     session.send("3 - Angry");
     session.send("4 - Scared");
     session.send("5 - Anxious");
-    builder.Prompts.number(session, "What best describes you right now? Please enter the corresponding number.");
+    builder.Prompts.number(session, "Which feeling best describes you right now? Please enter the corresponding number.");
   });
 
 bot.dialog('/sadEmotions2',
   function (session) {
     var res = session.message.text;
     if (res == 1) {
-      session.send("I'm sorry to hear that. Please know that you're not alone in this world, there are many people that care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there");
+      session.send("I'm sorry to hear that. Please know that you're not alone in this world, and that there are many people who care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency, please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there");
       session.beginDialog('/causes');
     } else if (res == 2) {
-      session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship so we mustn't give up");
+      session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship. You will come out of this stronger, so don't give up!");
       session.beginDialog('/causes');
     } else if (res == 3) {
-      session.send("Take a deep breath, stop thinking anything that is bothering you and go have a walk outside.");
+      session.send("Take a deep breath, and try to stop thinking about whatever is bothering you. We all feel angry sometimes, but it is important to deal with your anger in a healthy way. Perhaps you can go take a walk outside, and try to clear your head.");
       session.beginDialog('/causes');
     } else if (res == 4) {
-      session.send("test123");
+      session.send("We all feel scared sometimes, so you are definitely not alone! Try to take your mind off of what is scaring you, and collect your thoughts. Persevere, and the fear will dissolve.");
       session.beginDialog('/causes');
     } else if (res == 5) {
-      session.send("test69/420");
+      session.send("Hey, it's perfectly fine to feel anxious sometimes. Try to take a deep breath, and take your mind off of whatever is making you anxious. Try your best to prepare for whatever you are anxious about, and you will be fine. Hang in there!");
       session.beginDialog('/causes');
     }
     session.endDialog();
@@ -167,17 +167,17 @@ bot.dialog('/sadEmotions2',
 
 bot.dialog('/causes', [
   function (session) {
-    builder.Prompts.choice(session, "What best describes you right now?", ["Academic", "Coop", "Finance", "Social Life"]);
+    builder.Prompts.choice(session, "What is causing you to feel this way?", ["Academic", "Coop", "Finance", "Social Life"]);
   },
   function (session, results) {
     if (results.response.entity === "Academic") {
-      session.send("If you are struggling with academics, maybe it's time to see an academic advisor, you can get more info here: https://uwaterloo.ca/registrar/current-students/advisors");
+      session.send("If you are struggling with academics, it may be a great idea to see an academic advisor, as they can help you get through your problems. You can get more info here: https://uwaterloo.ca/registrar/current-students/advisors");
     } else if (results.response.entity === "Coop") {
-      session.send("Finding a job can be hard sometimes, but hey you are probably not the only one so hang in tight");
+      session.send("Don't stress, finding a job is a difficult process for everyone. Be patient and keep on applying to jobs, and look for ways to improve your employable skills. If you are still concerned, check out https://uwaterloo.ca/co-operative-education/ for more information");
     } else if (results.response.entity === "Finance") {
-      session.send("There are government fundings and scholarships you can apply to, check out https://www.ontario.ca/page/osap-ontario-student-assistance-program and https://uwaterloo.ca/find-out-more/financing/scholarships");
+      session.send("There are government fundings, scholarships, and bursaries you can apply to, check out https://www.ontario.ca/page/osap-ontario-student-assistance-program and https://uwaterloo.ca/find-out-more/financing/scholarships for more details.");
     } else if (results.response.entity === "Social Life") {
-      session.send("Get out more, talk to strangers, social life will only come if you really mean it!");
+      session.send("It's never too late to make new friends! Try joining some clubs you're interested in, talking to classmates, and attending campus events. Get out there and be a social butterfly!");
     }
     session.endDialog();
   }
