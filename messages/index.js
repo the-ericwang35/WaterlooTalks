@@ -84,11 +84,13 @@ bot.dialog('/feeling',
     .headers({'Accept': 'application/json', 'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': '88d91d2cc28c48628da9256371be038e'})
     .send({ "documents": [{"language": "en", "id": "bot", "text": res}]})
     .end(function(response) {
-      if(response.body['documents'][0]['score'] < 0.4 && (Number(res) != res)){
+    if((Number(res) != res)) {
+      if(response.body['documents'][0]['score'] < 0.4){
         session.beginDialog('/promptSad');
       } else {
         session.beginDialog('/promptHappy');
       }
+    }
     });
     session.endDialog();
   });
@@ -135,7 +137,7 @@ bot.dialog('/sadEmotions', [
     session.send("3 - Angry");
     session.send("4 - Scared");
     session.send("5 - Anxious");
-    builder.Prompts.number(session, "What best describes you right now? Please enter the corresponding number.", ["1", "2", "3", "4", "5"]);
+    builder.Prompts.number(session, "What best describes you right now? Please enter the corresponding number.");
   },
   function(session, results) {
     if(results.response.entity == 1){
