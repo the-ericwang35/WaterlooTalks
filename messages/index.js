@@ -45,84 +45,64 @@ intents.matches('expressFeeling', '/feeling');
 intents.matches('requestCounselling', '/counsel');
 
 bot.dialog('/greet', [
-  function(session, args, next) {
-    if(!session.userData.name) {
+  function (session, args, next) {
+    if (!session.userData.name) {
       session.beginDialog('/profile');
     } else {
       next();
     }
   },
-  function(session, results) {
+  function (session, results) {
     session.send("Hi, %s. How are you doing?", session.userData.name);
     session.endDialog();
   }
 ]);
 
+bot.dialog('/profile', [
+  function (session) {
+    builder.Prompts.text(session, "Hey there! What is your name?");
+  },
+  function (session, results) {
+    session.userData.name = results.response;
+    session.endDialog();
+  }
+]);
+
 bot.dialog('/counsel', [
-  function(session) {
+  function (session) {
     session.send("You can contact Waterloo Health Services at 519-888-4096 or you can visit https://uwaterloo.ca/health-services/mental-health-services for more info");
     session.send("Alternatively, the Delton Glebe Counselling Centre is near campus and can be reached at 519-884-3305 or at http://glebecounselling.ca/");
     session.endDialog();
   }
 ]);
 
-bot.dialog('/profile', [
-  function(session) {
-    builder.Prompts.text(session, "Hey there! What is your name?");
-  },
-  function(session, results) {
-    session.userData.name = results.response;
-    session.endDialog();
-  }
-]);
 
 bot.dialog('/feeling',
-  function(session) {
-    //var ourRequest = new XMLHttpRequest();
-    var res = session.message.text.replace(/ /g, "+");
-    /*var params = JSON.stringify({ text : `${res}` });
-    ourRequest.open('GET', 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?');
-    ourRequest.setRequestHeader("Content-Type","application/json");
-    ourRequest.setRequestHeader("Ocp-Apim-Subscription-Key","88d91d2cc28c48628da9256371be038e");
-    ourRequest.onload = function(){
-      if (ourRequest.status >= 200 && ourRequest.status < 400) { //check if connection was successful
-        var data = JSON.parse(ourRequest.responseText);
-        if(data.documents[0].score < 0.3){
-          session.beginDialog('/promptSad');
+  function (session) {
+    var res = session.message.text;
+    unirest.post('https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment')
+      .headers({ 'Accept': 'application/json', 'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': '88d91d2cc28c48628da9256371be038e' })
+      .send({ "documents": [{ "language": "en", "id": "bot", "text": res }] })
+      .end(function (response) {
+        if (Number(res) != res) {
+          if (response.body['documents'][0]['score'] < 0.4) {
+            session.beginDialog('/promptSad');
+          } else {
+            session.beginDialog('/promptHappy');
+          }
         } else {
-          session.beginDialog('/promptHappy');
+          session.beginDialog('/sadEmotions2');
         }
-      } else {
-        console.log("The server returned an error");
-        session.send("server error");
-      }
-    };
-    ourRequest.onerror = function(){
-      console.log("There was an error");
-      session.send("error");
-    };
-    ourRequest.send(params);
-    session.endDialog();
-  }*/
-    unirest.post('https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?')
-    .headers({'Accept': 'application/json', 'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': '88d91d2cc28c48628da9256371be038e'})
-    .send({ "documents": [{"language": "en", "id": "bot", "text": res}]})
-    .end(function(response) {
-      if(response.body['documents'][0]['score'] < 0.4){
-        session.beginDialog('/promptSad');
-      } else {
-        session.beginDialog('/promptHappy');
-      }
-    });
+      });
     session.endDialog();
   });
 
 bot.dialog('/promptSad', [
-  function(session) {
-    builder.Prompts.choice(session, "It seems like you are sad, is that true?", ["Yes", "No"]);
+  function (session) {
+    builder.Prompts.choice(session, "It seems like you are feeling down, is this true?", ["Yes", "No"]);
   },
-  function(session, results) {
-    if(results.response.entity.localeCompare("Yes") == 0){
+  function (session, results) {
+    if (results.response.entity === "Yes") {
       session.beginDialog('/sadEmotions');
     } else {
       session.beginDialog('/happyEnding');
@@ -132,11 +112,11 @@ bot.dialog('/promptSad', [
 ]);
 
 bot.dialog('/promptHappy', [
-  function(session) {
+  function (session) {
     builder.Prompts.choice(session, "It seems like you are doing alright, is that true?", ["Yes", "No"]);
   },
-  function(session, results) {
-    if(results.response.entity.localeCompare("Yes") == 0){
+  function (session, results) {
+    if (results.response.entity === "Yes") {
       session.beginDialog('/happyEnding');
     } else {
       session.beginDialog('/sadEmotions');
@@ -146,71 +126,79 @@ bot.dialog('/promptHappy', [
 ]);
 
 bot.dialog('/happyEnding', [
-  function(session) {
+  function (session) {
     session.send("Happy to hear that! I will always be here if you need me");
     session.endDialog();
   }
 ]);
 
-bot.dialog('/sadEmotions', [
-  function(session) {
-    builder.Prompts.choice(session, "What best describes you right now?", ["Sad", "Tired", "Angry", "Scared", "Anxious"]);
-  },
-  function(session, results) {
-    if(results.response.entity.localeCompare("Sad") == 0){
-      session.send("I'm sorry to hear that. Please know that you're not alone in this world, there are many people that care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there");
+bot.dialog('/sadEmotions',
+  function (session) {
+    session.send("1 - Sad");
+    session.send("2 - Tired");
+    session.send("3 - Angry");
+    session.send("4 - Scared");
+    session.send("5 - Anxious");
+    builder.Prompts.number(session, "Which feeling best describes you right now? Please enter the corresponding number.");
+  });
+
+bot.dialog('/sadEmotions2',
+  function (session) {
+    var res = session.message.text;
+    if (res == 1) {
+      session.send("I'm sorry to hear that. Please know that you're not alone in this world, and that there are many people who care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency, please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there");
       session.beginDialog('/causes');
-    } else if (results.response.entity.localeCompare("Tired") == 0) {
-      session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship so we mustn't give up");
+    } else if (res == 2) {
+      session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship. You will come out of this stronger, so don't give up!");
       session.beginDialog('/causes');
-    }else if (results.response.entity.localeCompare("Anger") == 0) {
-      session.send("Take a deep breath, calm down");
+    } else if (res == 3) {
+      session.send("Take a deep breath, and try to stop thinking about whatever is bothering you. We all feel angry sometimes, but it is important to deal with your anger in a healthy way. Perhaps you can go take a walk outside, and try to clear your head.");
       session.beginDialog('/causes');
-    }else if (results.response.entity.localeCompare("Scared") == 0) {
-      session.send("");
+    } else if (res == 4) {
+      session.send("We all feel scared sometimes, so you are definitely not alone! Try to take your mind off of what is scaring you, and collect your thoughts. Persevere, and the fear will dissolve.");
       session.beginDialog('/causes');
-    }else if (results.response.entity.localeCompare("Anxious") == 0) {
-      session.send("");
+    } else if (res == 5) {
+      session.send("Hey, it's perfectly fine to feel anxious sometimes. Try to take a deep breath, and take your mind off of whatever is making you anxious. Try your best to prepare for whatever you are anxious about, and you will be fine. Hang in there!");
       session.beginDialog('/causes');
     }
     session.endDialog();
   }
-]);
+);
 
 bot.dialog('/causes', [
-  function(session) {
-    builder.Prompts.choice(session, "What best describes you right now?", ["Academic", "Coop", "Finance", "Social Life"]);
+  function (session) {
+    builder.Prompts.choice(session, "Could you tell me what is causing you to feel this way?", ["Academic", "Coop", "Finance", "Social Life"]);
   },
-  function(session, results) {
-    if(results.response.entity.localeCompare("Academic") == 0){
-      session.send("If you are struggling with academics, maybe it's time to see an academic advisor, you can get more info here: https://uwaterloo.ca/registrar/current-students/advisors");
-    } else if (results.response.entity.localeCompare("Coop") == 0) {
-      session.send("Finding a job can be hard sometimes, but hey you are probably not the only one so hang in tight");
-    } else if (results.response.entity.localeCompare("Finance") == 0) {
-      session.send("There are government fundings and scholarships you can apply to, check out https://www.ontario.ca/page/osap-ontario-student-assistance-program and https://uwaterloo.ca/find-out-more/financing/scholarships");
-    } else if (results.response.entity.localeCompare("Social Life") == 0) {
-      session.send("Get out more, talk to strangers, social life will only come if you really mean it!");
+  function (session, results) {
+    if (results.response.entity === "Academic") {
+      session.send("If you are struggling with academics, it may be a great idea to see an academic advisor, as they can help you get through your problems. You can get more info here: https://uwaterloo.ca/registrar/current-students/advisors");
+    } else if (results.response.entity === "Coop") {
+      session.send("Don't stress, finding a job is a difficult process for everyone. Be patient and keep on applying to jobs, and look for ways to improve your employable skills. If you are still concerned, check out https://uwaterloo.ca/co-operative-education/ for more information");
+    } else if (results.response.entity === "Finance") {
+      session.send("There are government fundings, scholarships, and bursaries you can apply to, check out https://www.ontario.ca/page/osap-ontario-student-assistance-program and https://uwaterloo.ca/find-out-more/financing/scholarships for more details.");
+    } else if (results.response.entity === "Social Life") {
+      session.send("It's never too late to make new friends! Try joining some clubs you're interested in, talking to classmates, and attending campus events. Get out there and be a social butterfly!");
     }
     session.endDialog();
   }
 ]);
 
 bot.dialog('/numbers', [
-  function(session) {
+  function (session) {
     session.send("Here are some great 24/7 hotlines in the Waterloo region: \n-Supportive and Confidential Listening (519-745-1166), \n-Here 24/7: Addictions, Mental Health & Crisis Services (1-844-437-3247), \n-Good2Talk Support Line for Post-secondary Students (1-866-925-5454), \n-24-hour Support Line for Sexual Violence Survivors (519-741-8633), \n-Mental Health and Community Referral Information (519-744-5594).");
     session.send("I'm so glad you talked to me about this. Remember, being aware of how you're feeling is a huge first step. Keep going and don't give up, you got this!");
     session.endDialog();
-}]);
+  }]);
 
 intents.onDefault((session) => {
-    session.send('Sorry, I did not understand \'%s\'.', session.message.text);
-    session.endDialog();
+  session.send('Sorry, I did not understand \'%s\'.', session.message.text);
+  session.endDialog();
 });
 
 if (useEmulator) {
   var restify = require('restify');
   var server = restify.createServer();
-  server.listen(3978, function() {
+  server.listen(3978, function () {
     console.log('test bot endpont at http://localhost:3978/api/messages');
   });
   server.post('/api/messages', connector.listen());
