@@ -85,13 +85,15 @@ bot.dialog('/feeling',
       .send({ "documents": [{ "language": "en", "id": "bot", "text": res }] })
       .end(function (response) {
         if (Number(res) != res) {
-          if (response.body['documents'][0]['score'] < 0.4) {
-            session.beginDialog('/promptSad');
+          if (res === 'Academic' || res === "Coop" || res === "Finance" || res == "Social Life") {
+            session.beginDialog('/causes2');
           } else {
-            session.beginDialog('/promptHappy');
+            if (response.body['documents'][0]['score'] < 0.4) {
+              session.beginDialog('/promptSad');
+            } else {
+              session.beginDialog('/promptHappy');
+            }
           }
-        } else if (res === 'Academic' || res === "Coop" || res === "Finance" || res == "Social Life") {
-            session.beginIdalog('/causes2');
         } else {
           session.beginDialog('/sadEmotions2');
         }
