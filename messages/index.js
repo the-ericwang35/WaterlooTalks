@@ -86,7 +86,7 @@ bot.dialog('/feeling',
       .end(function (response) {
         if (Number(res) != res) {
           session.send(res);
-          if (res === 'Academic' || res === "Coop" || res === "Finance" || res == "Social Life") {
+          if (res === "Academic" || res === "Coop" || res === "Finance" || res === "Social Life") {
             session.beginDialog('/causes2');
           } else {
             if (response.body['documents'][0]['score'] < 0.4) {
