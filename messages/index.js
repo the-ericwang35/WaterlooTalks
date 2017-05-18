@@ -85,6 +85,7 @@ bot.dialog('/feeling',
       .send({ "documents": [{ "language": "en", "id": "bot", "text": res }] })
       .end(function (response) {
         if (Number(res) != res) {
+          session.send(res);
           if (res === 'Academic' || res === "Coop" || res === "Finance" || res == "Social Life") {
             session.beginDialog('/causes2');
           } else {
