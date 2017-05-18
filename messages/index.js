@@ -90,6 +90,8 @@ bot.dialog('/feeling',
           } else {
             session.beginDialog('/promptHappy');
           }
+        } else if (res === 'Academic' || res === "Coop" || res === "Finance" || res == "Social Life") {
+            session.beginIdalog('/causes2');
         } else {
           session.beginDialog('/sadEmotions2');
         }
@@ -165,23 +167,26 @@ bot.dialog('/sadEmotions2',
   }
 );
 
-bot.dialog('/causes', [
+bot.dialog('/causes', 
   function (session) {
     builder.Prompts.choice(session, "Could you tell me what is causing you to feel this way?", ["Academic", "Coop", "Finance", "Social Life"]);
-  },
-  function (session, results) {
-    if (results.response.entity === "Academic") {
+  });
+                                                           
+bot.dialog('/causes2',                                                          
+  function (session) {
+    var res = session.message.text;                                                           
+    if (res === "Academic") {
       session.send("If you are struggling with academics, it may be a great idea to see an academic advisor, as they can help you get through your problems. You can get more info here: https://uwaterloo.ca/registrar/current-students/advisors");
-    } else if (results.response.entity === "Coop") {
+    } else if (res === "Coop") {
       session.send("Don't stress, finding a job is a difficult process for everyone. Be patient and keep on applying to jobs, and look for ways to improve your employable skills. If you are still concerned, check out https://uwaterloo.ca/co-operative-education/ for more information");
-    } else if (results.response.entity === "Finance") {
+    } else if (res === "Finance") {
       session.send("There are government fundings, scholarships, and bursaries you can apply to, check out https://www.ontario.ca/page/osap-ontario-student-assistance-program and https://uwaterloo.ca/find-out-more/financing/scholarships for more details.");
-    } else if (results.response.entity === "Social Life") {
+    } else if (res === "Social Life") {
       session.send("It's never too late to make new friends! Try joining some clubs you're interested in, talking to classmates, and attending campus events. Get out there and be a social butterfly!");
     }
     session.endDialog();
   }
-]);
+);
 
 bot.dialog('/numbers', [
   function (session) {
