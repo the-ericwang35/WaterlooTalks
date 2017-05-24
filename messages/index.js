@@ -88,7 +88,10 @@ bot.dialog('/feeling',
           //session.send(res);
           if (res === "Academic" || res === "Coop" || res === "Finance" || res === "Social Life") {
             session.beginDialog('/causes2');
-          } else {
+          } else if (res === "Sad" || res === "Tired" || res === "Angry" || res === "Scared" || res === "Anxious") {
+            session.beginDialog('/sadEmotions2');
+          }
+          else {
             if (response.body['documents'][0]['score'] < 0.4) {
               session.beginDialog('/promptSad');
             } else {
@@ -139,30 +142,25 @@ bot.dialog('/happyEnding', [
 
 bot.dialog('/sadEmotions',
   function (session) {
-    session.send("1 - Sad");
-    session.send("2 - Tired");
-    session.send("3 - Angry");
-    session.send("4 - Scared");
-    session.send("5 - Anxious");
-    builder.Prompts.number(session, "Which feeling best describes you right now? Please enter the corresponding number.");
+    builder.Prompts.choice(session, "Could you tell me which word best describes you right now?", ["Sad", "Tired", "Angry", "Scared", "Anxious"]);
   });
 
 bot.dialog('/sadEmotions2',
   function (session) {
     var res = session.message.text;
-    if (res == 1) {
+    if (res == "Sad") {
       session.send("I'm sorry to hear that. Please know that you're not alone in this world, and that there are many people who care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency, please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there");
       session.beginDialog('/causes');
-    } else if (res == 2) {
+    } else if (res == "Tired") {
       session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship. You will come out of this stronger, so don't give up!");
       session.beginDialog('/causes');
-    } else if (res == 3) {
+    } else if (res == "Angry") {
       session.send("Take a deep breath, and try to stop thinking about whatever is bothering you. We all feel angry sometimes, but it is important to deal with your anger in a healthy way. Perhaps you can go take a walk outside, and try to clear your head.");
       session.beginDialog('/causes');
-    } else if (res == 4) {
+    } else if (res == "Scared") {
       session.send("We all feel scared sometimes, so you are definitely not alone! Try to take your mind off of what is scaring you, and collect your thoughts. Persevere, and the fear will dissolve.");
       session.beginDialog('/causes');
-    } else if (res == 5) {
+    } else if (res == "Anxious") {
       session.send("Hey, it's perfectly fine to feel anxious sometimes. Try to take a deep breath, and take your mind off of whatever is making you anxious. Try your best to prepare for whatever you are anxious about, and you will be fine. Hang in there!");
       session.beginDialog('/causes');
     }
