@@ -135,7 +135,7 @@ bot.dialog('/promptHappy', [
 
 bot.dialog('/happyEnding', [
   function (session) {
-    session.send("Happy to hear that! I will always be here if you need me");
+    session.send("Happy to hear that! I will always be here if you need me :)");
     session.endDialog();
   }
 ]);
@@ -149,7 +149,7 @@ bot.dialog('/sadEmotions2',
   function (session) {
     var res = session.message.text;
     if (res == "Sad") {
-      session.send("I'm sorry to hear that. Please know that you're not alone in this world, and that there are many people who care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency, please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there");
+      session.send("I'm sorry to hear that. Please know that you're not alone in this world, and that there are many people who care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency, please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there!!");
       session.beginDialog('/causes');
     } else if (res == "Tired") {
       session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship. You will come out of this stronger, so don't give up!");
@@ -183,7 +183,7 @@ bot.dialog('/causes2',
     } else if (res === "Finance") {
       session.send("There are government fundings, scholarships, and bursaries you can apply to, check out https://www.ontario.ca/page/osap-ontario-student-assistance-program and https://uwaterloo.ca/find-out-more/financing/scholarships for more details.");
     } else if (res === "Social Life") {
-      session.send("It's never too late to make new friends! Try joining some clubs you're interested in, talking to classmates, and attending campus events. Get out there and be a social butterfly!");
+      session.send("It's never too late to make new friends! Try joining some clubs you're interested in, talking to classmates, and attending campus events. Get out there and be a social butterfly! :)");
     }
     session.endDialog();
   }
