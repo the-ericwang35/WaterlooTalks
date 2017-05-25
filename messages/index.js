@@ -136,15 +136,11 @@ bot.dialog('/promptHappy', [
 bot.dialog('/happyEnding', [
   function (session) {
     var msg = new builder.Message(session);
-  //  msg.attachmentLayout(builder.AttachmentLayout.carousel);
     msg.addAttachment(
         new builder.AnimationCard(session)
-          //  .autoloop(true)
-          //  .autostart(true)
             .media([{ profile: 'GIF test',
                   url: 'https://media.giphy.com/media/vMnuZGHJfFSTe/giphy.gif'
         }]));
-            //.media("https://media.giphy.com/media/vMnuZGHJfFSTe/giphy.gif"));
     session.send(msg);
     session.send("Happy to hear that! I will always be here if you need me :)");
     session.endDialog();
@@ -161,9 +157,17 @@ bot.dialog('/sadEmotions2',
     var res = session.message.text;
     if (res == "Sad") {
       session.send("I'm sorry to hear that. Please know that you're not alone in this world, and that there are many people who care about you and love you very much. I am not fully equipped to help you yet, sorry. If it's an emergency, please contact 911 or your local authorities. I also encourage you to contact a trained mental health professional who will be able to help you better than I can. Hang in there!!");
+      session.send("Please visit https://uwaterloo.ca/health-services/mental-health-services if you would like more info");
       session.beginDialog('/causes');
     } else if (res == "Tired") {
-      session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship. You will come out of this stronger, so don't give up!");
+      session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship. You will come out of this stronger, so don't give up! Check out this video if you want some more motivation!");
+      var msg = new builder.Message(session);
+      msg.addAttachment(
+        new builder.VideoCard(session)
+            .media([{ profile: 'Video test',
+                  url: 'https://www.youtube.com/watch?v=UNQhuFL6CWg'
+        }]));
+      session.send(msg);
       session.beginDialog('/causes');
     } else if (res == "Angry") {
       session.send("Take a deep breath, and try to stop thinking about whatever is bothering you. We all feel angry sometimes, but it is important to deal with your anger in a healthy way. Perhaps you can go take a walk outside, and try to clear your head.");
