@@ -86,7 +86,7 @@ bot.dialog('/feeling',
       .end(function (response) {
         if (Number(res) != res) {
           //session.send(res);
-          if (res === "Academic" || res === "Coop" || res === "Finance" || res === "Social Life") {
+          if (res === "Academic" || res === "Coop" || res === "Finance" || res === "Social Life" || res === "Relationship") {
             session.beginDialog('/causes2');
           } else if (res === "Sad" || res === "Tired" || res === "Angry" || res === "Scared" || res === "Anxious") {
             session.beginDialog('/sadEmotions2');
@@ -170,7 +170,7 @@ bot.dialog('/sadEmotions2',
 
 bot.dialog('/causes', 
   function (session) {
-    builder.Prompts.choice(session, "Could you tell me what is causing you to feel this way?", ["Academic", "Coop", "Finance", "Social Life"]);
+    builder.Prompts.choice(session, "Could you tell me what is causing you to feel this way?", ["Academic", "Coop", "Finance", "Social Life", "Relationship"]);
   });
                                                            
 bot.dialog('/causes2',                                                          
@@ -184,6 +184,8 @@ bot.dialog('/causes2',
       session.send("There are government fundings, scholarships, and bursaries you can apply to, check out https://www.ontario.ca/page/osap-ontario-student-assistance-program and https://uwaterloo.ca/find-out-more/financing/scholarships for more details.");
     } else if (res === "Social Life") {
       session.send("It's never too late to make new friends! Try joining some clubs you're interested in, talking to classmates, and attending campus events. Get out there and be a social butterfly! :)");
+    } else if (res === "Relationship") {
+      session.send("Hang in there, relationships aren't easy. Just remember that things happen for a reason, and that everything will be okay given time. Surprisingly, Reddit gives some pretty good advice so check out https://www.reddit.com/r/relationship_advice/ :)"); 
     }
     session.endDialog();
   }
