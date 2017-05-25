@@ -136,12 +136,15 @@ bot.dialog('/promptHappy', [
 bot.dialog('/happyEnding', [
   function (session) {
     var msg = new builder.Message(session);
-    msg.attachmentLayout(builder.AttachmentLayout.carousel);
+  //  msg.attachmentLayout(builder.AttachmentLayout.carousel);
     msg.addAttachment(
         new builder.AnimationCard(session)
-            .autoloop(true)
-            .autostart(true)
-            .media("https://media.giphy.com/media/vMnuZGHJfFSTe/giphy.gif"));
+          //  .autoloop(true)
+          //  .autostart(true)
+            .media([{ profile: 'GIF test',
+                  url: 'https://media.giphy.com/media/vMnuZGHJfFSTe/giphy.gif'
+        }]));
+            //.media("https://media.giphy.com/media/vMnuZGHJfFSTe/giphy.gif"));
     session.send(msg);
     session.send("Happy to hear that! I will always be here if you need me :)");
     session.endDialog();
