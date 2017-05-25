@@ -135,6 +135,13 @@ bot.dialog('/promptHappy', [
 
 bot.dialog('/happyEnding', [
   function (session) {
+    var msg = new builder.Message(session);
+    msg.attachmentLayout(builder.AttachmentLayout.carousel);
+    msg.addAttachment(
+        new builder.AnimationCard(session)
+            .autoloop(true)
+            .autostart(true)
+            .media("https://media.giphy.com/media/vMnuZGHJfFSTe/giphy.gif"));
     session.send("Happy to hear that! I will always be here if you need me :)");
     session.endDialog();
   }
