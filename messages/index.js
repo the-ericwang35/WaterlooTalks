@@ -142,6 +142,7 @@ bot.dialog('/happyEnding', [
             .autoloop(true)
             .autostart(true)
             .media("https://media.giphy.com/media/vMnuZGHJfFSTe/giphy.gif"));
+    session.send(msg);
     session.send("Happy to hear that! I will always be here if you need me :)");
     session.endDialog();
   }
