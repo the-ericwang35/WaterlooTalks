@@ -161,13 +161,7 @@ bot.dialog('/sadEmotions2',
       session.beginDialog('/causes');
     } else if (res == "Tired") {
       session.send("Hey, hang in there. We all have times when we just want to call it a quit, but one will only grow through hardship. You will come out of this stronger, so don't give up! Check out this video if you want some more motivation!");
-      var msg = new builder.Message(session);
-      msg.addAttachment(
-        new builder.VideoCard(session)
-            .media([{ profile: 'Video test',
-                  url: 'https://www.youtube.com/watch?v=UNQhuFL6CWg'
-        }]));
-      session.send(msg);
+      session.send("https://www.youtube.com/watch?v=UNQhuFL6CWg");
       session.beginDialog('/causes');
     } else if (res == "Angry") {
       session.send("Take a deep breath, and try to stop thinking about whatever is bothering you. We all feel angry sometimes, but it is important to deal with your anger in a healthy way. Perhaps you can go take a walk outside, and try to clear your head.");
