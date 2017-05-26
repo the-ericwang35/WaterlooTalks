@@ -139,7 +139,7 @@ bot.dialog('/happyEnding', [
     msg.addAttachment(
         new builder.AnimationCard(session)
             .media([{ profile: 'GIF test',
-                  url: 'https://media.giphy.com/media/vMnuZGHJfFSTe/giphy.gif'
+                  url: 'https://media.giphy.com/media/11sBLVxNs7v6WA/giphy.gif'
         }]));
     session.send(msg);
     session.send("Happy to hear that! I will always be here if you need me :)");
@@ -177,14 +177,14 @@ bot.dialog('/sadEmotions2',
   }
 );
 
-bot.dialog('/causes', 
+bot.dialog('/causes',
   function (session) {
     builder.Prompts.choice(session, "Could you tell me what is causing you to feel this way?", ["Academic", "Coop", "Finance", "Social Life", "Relationship"]);
   });
-                                                           
-bot.dialog('/causes2',                                                          
+
+bot.dialog('/causes2',
   function (session) {
-    var res = session.message.text;                                                           
+    var res = session.message.text;
     if (res === "Academic") {
       session.send("If you are struggling with academics, it may be a great idea to see an academic advisor, as they can help you get through your problems. You can get more info here: https://uwaterloo.ca/registrar/current-students/advisors");
     } else if (res === "Coop") {
@@ -194,8 +194,9 @@ bot.dialog('/causes2',
     } else if (res === "Social Life") {
       session.send("It's never too late to make new friends! Try joining some clubs you're interested in, talking to classmates, and attending campus events. Get out there and be a social butterfly! :)");
     } else if (res === "Relationship") {
-      session.send("Hang in there, relationships aren't easy. Just remember that things happen for a reason, and that everything will be okay given time. Surprisingly, Reddit gives some pretty good advice so check out https://www.reddit.com/r/relationship_advice/ :)"); 
+      session.send("Hang in there, relationships aren't easy. Just remember that things happen for a reason, and that everything will be okay given time. Surprisingly, Reddit gives some pretty good advice so check out https://www.reddit.com/r/relationship_advice/ :)");
     }
+    session.send("Thanks for talking to me about this. If there is anything else that you want to talk about let me know anytime!")
     session.endDialog();
   }
 );
@@ -216,7 +217,7 @@ if (useEmulator) {
   var restify = require('restify');
   var server = restify.createServer();
   server.listen(3978, function () {
-    console.log('test bot endpont at http://localhost:3978/api/messages');
+    console.log('test bot endpoint at http://localhost:3978/api/messages');
   });
   server.post('/api/messages', connector.listen());
 } else {
