@@ -171,7 +171,7 @@ bot.dialog('/sadEmotions2',
       session.send("We all feel scared sometimes, so you are definitely not alone! Try to take your mind off of what is scaring you, and collect your thoughts. Persevere, and the fear will dissolve.");
       session.beginDialog('/causes');
     } else if (res == "Anxious") {
-      session.send("Hey, it's perfectly fine to feel anxious sometimes. Try to take a deep breath, and take your mind off of whatever is making you anxious. Try your best to prepare for whatever you are anxious about, and you will be fine. Hang in there!");
+      session.send("Hey, it's perfectly fine to feel anxious sometimes. Try to take a deep breath, and take your mind off of whatever is making you anxious. Try your best to prepare for whatever you are anxious about, and you will be fine. Hang in there! If you are still worried, this guide will make you a pro at it: https://www.youtube.com/watch?v=k5RH3BdXDOY&feature=youtu.be");
       session.beginDialog('/causes');
     }
     session.endDialog();
