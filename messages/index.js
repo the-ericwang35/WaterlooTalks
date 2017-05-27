@@ -165,7 +165,7 @@ bot.dialog('/sadEmotions2',
       session.send("https://www.youtube.com/watch?v=UNQhuFL6CWg");
       session.beginDialog('/causes');
     } else if (res == "Angry") {
-      session.send("Take a deep breath, and try to stop thinking about whatever is bothering you. We all feel angry sometimes, but it is important to deal with your anger in a healthy way. Perhaps you can go take a walk outside, and try to clear your head.");
+      session.send("Take a deep breath, and try to stop thinking about whatever is bothering you. We all feel angry sometimes, but it is important to deal with your anger in a healthy way. Perhaps you can go take a walk outside, and try to clear your head. Or even better, let the music soothe your anger: https://www.youtube.com/watch?v=KisPGQFxMiw");
       session.beginDialog('/causes');
     } else if (res == "Scared") {
       session.send("We all feel scared sometimes, so you are definitely not alone! Try to take your mind off of what is scaring you, and collect your thoughts. Persevere, and the fear will dissolve.");
@@ -193,7 +193,7 @@ bot.dialog('/causes2',
     } else if (res === "Finance") {
       session.send("There are government fundings, scholarships, and bursaries you can apply to, check out https://www.ontario.ca/page/osap-ontario-student-assistance-program and https://uwaterloo.ca/find-out-more/financing/scholarships for more details.");
     } else if (res === "Social Life") {
-      session.send("It's never too late to make new friends! Try joining some clubs you're interested in, talking to classmates, and attending campus events. Get out there and be a social butterfly! :)");
+      session.send("It's never too late to make new friends! Try joining some clubs you're interested in, talking to classmates, and attending campus events. Here is a list of all the clubs at UW, take a look, there's gotta be one for you! http://www.feds.ca/clubs-section/clubs-listing/ Get out there and be a social butterfly! :)");
     } else if (res === "Relationship") {
       session.send("Hang in there, relationships aren't easy. Just remember that things happen for a reason, and that everything will be okay given time. Surprisingly, Reddit gives some pretty good advice so check out https://www.reddit.com/r/relationship_advice/ :)");
     }
